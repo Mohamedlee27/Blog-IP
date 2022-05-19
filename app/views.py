@@ -9,12 +9,13 @@ def home():
 
 
 
-@app.route('/login')
+@app.route('/login', methods=['POST', 'GET'])
 def login():
-    return render_template('login.html')
+    form=LoginForm()
+    return render_template('login.html', form=form)
 
 
-@app.route('/reg')
+@app.route('/reg',  methods=['POST', 'GET'])
 def registration():
     return render_template('registration.html')
 
