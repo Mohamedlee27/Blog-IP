@@ -10,7 +10,7 @@ class User(UserMixin,db.Model):
     password = db.Column(db.String(128))
     blogs = db.relationship('Blog', backref='author', lazy='dynamic')
     comment = db.relationship('Comment', backref='user', lazy='dynamic')
-    # comments=db.relationship('Comment' ,backref='writer', lazy='dynamic')
+
     
     def __repr__(self):
         return f"User('{self.username}', '{self.email}')"

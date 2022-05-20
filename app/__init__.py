@@ -8,6 +8,7 @@ from flask_bootstrap import Bootstrap
 bootstrap = Bootstrap()
 app=Flask(__name__)
 app.config.from_object(Config)
+app.config[' SQLALCHEMY_DATABASE_URI']='DATABASE_URL'
 db=SQLAlchemy(app)
 bootstrap.init_app(app)
 
