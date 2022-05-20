@@ -1,8 +1,8 @@
-{% extends 'index.html %}
+{% extends 'index.html' %}
 {% block content %}
     <div class="content-section ">
     </div>
-    <form method="POST"  action="{{url_for('newPost')}}" novalidate>
+    <form method="POST"  action="" novalidate>
         {{form.hidden_tag()}}
         <fieldset class="form-group">
             <legend  class="border-bottom mb-4">Login Here</legend>
@@ -51,4 +51,4 @@
         </div>
     </form>
     
-{% endblock content %}
+{% endblock%}

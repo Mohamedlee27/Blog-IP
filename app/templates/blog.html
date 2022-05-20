@@ -1,0 +1,30 @@
+{% extends 'index.html'%}
+{% block content %}
+
+{% for message in get_flashed_messages() %}
+<div class="alert alert-success">
+<button type="button" class="close" data-dismiss="alert">&times;</button>
+{{ message }}
+</div>
+{% endfor %}
+
+<div class="container-fluid landing">
+    <div class="row">
+                {% for blog in blog %}
+                <div class="col-md-4 d-flex jusify-content-center" style="margin: 1%; width: 500px;">
+                    <div class="card" style="background-color:whitesmoke;">
+                        <h2 style="color:black; font-size:30px;" class="card-header">{{blog.title}}</h2>
+                        <h5 style="color:black; font-size:20px;" class="card-header">{{blog.title}}</h5>
+                        <div class="card-body">
+                                <p style="font-size: 40px;">{{blog.content}}</p>
+                                                    
+                        </div>
+                            
+                        </div>
+                    </div>
+                
+                {% endfor %}
+
+    </div>
+</div>
+{% endblock %}

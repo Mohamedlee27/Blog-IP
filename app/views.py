@@ -1,8 +1,7 @@
 from app import app,db
-from flask import render_template,flash,url_for,redirect
+from flask import render_template,flash,url_for,redirect,abort
 from app.forms import LoginForm, RegistrationForm, BlogForm
 from app.models import User, Blog
-from flask_login import login_user
 from flask_login import current_user, login_user
 
 
@@ -10,17 +9,20 @@ from flask_login import current_user, login_user
 blogs = [
     { 
       'title'  :'Interface Design',
- 'content'  :'Animation is like cursing. If you overuse it, it loses all its impact.',
- 'time_posted' : 'October 17 2002'
+      'content'  :'Animation is like cursing. If you overuse it, it loses all its impact.',
+      'time_posted' : 'October 17 2002'
     },
-
+]
 
 @app.route('/')
-@app.route('/index')
 def index():
     blogs=Blog.query.all()
     return render_template('index.html',blogs=blogs)
 
+@app.route('/blog')
+def blog():
+    blogs=Blog.query.all()
+    return render_template('blog.html',blog=blogs)
 
 
 @app.route('/login', methods=['POST', 'GET'])
@@ -49,19 +51,30 @@ def registration():
         return redirect(url_for('login'))
     return render_template('registration.html', form=form)
 
-@app.route('/new')
-def new():
-    form=BlogForm()
+# @app.route('/new')
+# def new():
+#     form=BlogForm()
 
-    return render_template('newblog.html' ,form=form)
+#     return render_template('newblog.html' ,form=form)
 
 @app.route('/newblog', methods=['POST', 'GET'])
 def newPost():
     form=BlogForm()
-    if form.validate_on_submit:
+    if form.validate_on_submit():
         blog=Blog(title=form.title.data , sub_title=form.sub_title.data, content=form.content.data )
         db.session.add(blog)
         db.session.commit()
         flash('blog added succesfully')
-        return redirect(url_for('index'))
+        return redirect(url_for('blog'))
+    return render_template('newblog.html' ,form=form)
+
+@app.route('/blog/<blog_id>/delete', methods = ['POST'])
+def delete_post(blog_id):
+    blog = Blog.query.get(blog_id)
+    if blog.user != current_user:
+        abort(403)
+    blog.delete()
+
+    flash("You have deleted your Blog succesfully!")
+    return redirect(url_for('blog'))
 

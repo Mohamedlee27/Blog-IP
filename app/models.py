@@ -27,3 +27,14 @@ class Blog(UserMixin,db.Model):
     content=db.Column(db.String(300))
     time_posted=db.Column(db.DateTime,index=True, default=datetime.now)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+
+    def get_blog(id):
+        blog = Blog.query.filter_by(id=id).first()
+        return blog
+
+    def __repr__(self):
+        return f'Blog {self.title}'
