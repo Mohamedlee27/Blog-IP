@@ -17,9 +17,8 @@ blogs = [
 
 @app.route('/')
 def index():
-    blogs=Blog.query.all()
     quote = get_quotes()
-    return render_template('index.html',blogs=blogs,quote=quote)
+    return render_template('index.html',quote=quote)
 
 @app.route('/blog')
 def blog():
