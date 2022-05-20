@@ -4,9 +4,11 @@ from app.forms import LoginForm, RegistrationForm, BlogForm
 from app.models import User, Blog
 from flask_login import login_user
 from flask_login import current_user, login_user
+
+
 @app.route('/')
-@app.route('/home')
-def home():
+@app.route('/index')
+def index():
     blogs=Blog.query.all()
     return render_template('index.html',blogs=blogs)
 
@@ -16,14 +18,14 @@ def home():
 def login():
     form=LoginForm()
     if current_user.is_authenticated:
-        return redirect(url_for('home'))
+        return redirect(url_for('index'))
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
         if user is None:
             flash(f'Invalid username or password', 'danger')
             return redirect(url_for('login'))
         login_user(user, remember=form.remember.data)
-        return redirect(url_for('home'))
+        return redirect(url_for('index'))
     return render_template('login.html', form=form)
 
 
@@ -52,5 +54,5 @@ def newPost():
         db.session.add(blog)
         db.session.commit()
         flash('blog added succesfully')
-        return redirect(url_for('home'))
+        return redirect(url_for('index'))
 
