@@ -2,7 +2,8 @@ from app import app,db
 from flask import render_template,flash,url_for,redirect,abort,request
 from app.forms import LoginForm, RegistrationForm, BlogForm,CommentForm
 from app.models import User, Blog,Comment
-from flask_login import current_user, login_user
+from flask_login import current_user, login_user,logout_user
+from .requests import get_quotes
 
 
 
@@ -17,7 +18,8 @@ blogs = [
 @app.route('/')
 def index():
     blogs=Blog.query.all()
-    return render_template('index.html',blogs=blogs)
+    quote = get_quotes()
+    return render_template('index.html',blogs=blogs,quote=quote)
 
 @app.route('/blog')
 def blog():
@@ -50,6 +52,10 @@ def registration():
         flash(f'Account succesfully created', 'success')
         return redirect(url_for('login'))
     return render_template('registration.html', form=form)
+@app.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for("index"))
 
 # @app.route('/new')
 # def new():
