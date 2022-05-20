@@ -28,6 +28,7 @@
                         <div class="" style="float: left;">
                             <a  class="btn btn-info btn-sm m-1" href="{{url_for('updateblog',blog_id = blog.id)}}">Edit Blog</a>
                         </div>
+                        <a href="{{url_for('comment',blog_id = blog.id)}}" class="btn btn-primary"> Comment</a>
                         </div>
                     </div>
                 {% endfor %}

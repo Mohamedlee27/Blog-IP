@@ -9,7 +9,7 @@ class User(UserMixin,db.Model):
     email = db.Column(db.String(120), index=True, unique=True)
     password = db.Column(db.String(128))
     blogs = db.relationship('Blog', backref='author', lazy='dynamic')
-
+    comment = db.relationship('Comment', backref='user', lazy='dynamic')
     # comments=db.relationship('Comment' ,backref='writer', lazy='dynamic')
     
     def __repr__(self):
@@ -29,6 +29,8 @@ class Blog(db.Model):
     content=db.Column(db.String(300))
     time_posted=db.Column(db.DateTime,index=True, default=datetime.now)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    comment = db.relationship('Comment', backref='pitch', lazy='dynamic')
+
 
     def delete(self):
         db.session.delete(self)
