@@ -19,11 +19,19 @@
                                 <p style="font-size: 40px;">{{blog.content}}</p>
                                                     
                         </div>
-                            
+                        <div class="" style="float: right;">
+                            <form action="{{url_for('delete_post',blog_id = blog.id)}}" method="POST">
+                                <input  type="submit" class="btn  btn-primary" value="Delete Post">
+                            </form>
+                        
+                        </div>
+                        <div class="" style="float: left;">
+                            <a  class="btn btn-info btn-sm m-1" href="{{url_for('updateblog',blog_id = blog.id)}}">Edit Blog</a>
+                        </div>
                         </div>
                     </div>
-                
                 {% endfor %}
+                
 
     </div>
 </div>

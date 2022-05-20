@@ -1,5 +1,5 @@
 from app import app,db
-from flask import render_template,flash,url_for,redirect,abort
+from flask import render_template,flash,url_for,redirect,abort,request
 from app.forms import LoginForm, RegistrationForm, BlogForm
 from app.models import User, Blog
 from flask_login import current_user, login_user
@@ -71,10 +71,23 @@ def newPost():
 @app.route('/blog/<blog_id>/delete', methods = ['POST'])
 def delete_post(blog_id):
     blog = Blog.query.get(blog_id)
-    if blog.user != current_user:
-        abort(403)
     blog.delete()
 
     flash("You have deleted your Blog succesfully!")
     return redirect(url_for('blog'))
-
+@app.route('/blog/<blog_id>/update', methods = ['GET','POST'])
+def updateblog(blog_id):
+    blog = Blog.query.get(blog_id)
+    form = BlogForm()
+    if form.validate_on_submit():
+        blog.title = form.title.data
+        blog.sub_title = form.sub_title.data
+        blog.content = form.content.data
+        db.session.commit()
+        flash("You have updated your Blog!")
+        return redirect(url_for('blog',id = blog.id)) 
+    if request.method == 'GET':
+        form.sub_title.data = blog.sub_title
+        form.title.data = blog.title
+        form.content.data = blog.content
+    return render_template('newblog.html', form = form)
