@@ -21,5 +21,11 @@ class RegistrationForm(FlaskForm):
     confirm_password=PasswordField('Password', validators=[DataRequired(), EqualTo('password')])
     submit=SubmitField('Sign up')
 
+class BlogForm(FlaskForm):
+    title=StringField('Title', validators=[DataRequired()])
+    sub_title=StringField('Sub_Title', validators=[DataRequired()])
+    content=TextAreaField('Content', validators=[DataRequired()])
+    add=SubmitField('Add')
+
 
 

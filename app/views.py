@@ -1,14 +1,14 @@
 from app import app,db
 from flask import render_template,flash,url_for,redirect
-from app.forms import LoginForm, RegistrationForm
-from app.models import User
+from app.forms import LoginForm, RegistrationForm, BlogForm
+from app.models import User, Blog
 from flask_login import login_user
 from flask_login import current_user, login_user
 @app.route('/')
 @app.route('/home')
 def home():
-
-    return render_template('index.html')
+    blogs=Blog.query.all()
+    return render_template('index.html',blogs=blogs)
 
 
 
@@ -38,4 +38,19 @@ def registration():
         return redirect(url_for('login'))
     return render_template('registration.html', form=form)
 
+@app.route('/new')
+def new():
+    form=BlogForm()
+
+    return render_template('newblog.html' ,form=form)
+
+@app.route('/newblog', methods=['POST', 'GET'])
+def newPost():
+    form=BlogForm()
+    if form.validate_on_submit:
+        blog=Blog(title=form.title.data , sub_title=form.sub_title.data, content=form.content.data )
+        db.session.add(blog)
+        db.session.commit()
+        flash('blog added succesfully')
+        return redirect(url_for('home'))
 
