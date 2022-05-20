@@ -9,6 +9,7 @@ class User(UserMixin,db.Model):
     email = db.Column(db.String(120), index=True, unique=True)
     password = db.Column(db.String(128))
     blogs = db.relationship('Blog', backref='author', lazy='dynamic')
+
     # comments=db.relationship('Comment' ,backref='writer', lazy='dynamic')
     
     def __repr__(self):
@@ -20,7 +21,8 @@ def load_user(id):
 
 
 
-class Blog(UserMixin,db.Model):
+class Blog(db.Model):
+    
     id=db.Column(db.Integer, primary_key=True)
     title=db.Column(db.String(30))
     sub_title=db.Column(db.String(20))
@@ -38,3 +40,28 @@ class Blog(UserMixin,db.Model):
 
     def __repr__(self):
         return f'Blog {self.title}'
+class Comment(db.Model):
+    __tablename__ = 'comments'
+    id = db.Column(db.Integer, primary_key=True)
+    comment = db.Column(db.Text(),nullable = False)
+    user_id = db.Column(db.Integer,db.ForeignKey('user.id'),nullable = False)
+    blog_id = db.Column(db.Integer,db.ForeignKey('blog.id'),nullable = False)
+    
+
+    def save_c(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def delete(self):
+        db.session.remove(self)
+        db.session.commit()
+
+    @classmethod
+    def get_comments(cls,blog_id):
+        comments = Comment.query.filter_by(blog_id=blog_id).all()
+        return comments
+
+    
+    def __repr__(self):
+        return f'comment:{self.comment}'
+    
