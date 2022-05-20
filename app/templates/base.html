@@ -1,0 +1,17 @@
+{% extends 'index.html %}
+{% block content %}
+
+{% for blog in blogs %}
+<div class="container">
+    <article class="content-section">
+        <div class="article">
+          <div class="article-data">
+            <a class="mr-2" href="#">{{ blog.title }}</a>
+            <small class="text-muted">{{ blog.time_posted.strftime('%Y-%m-%d') }}</small>
+          </div>
+          <h2><a class="article-title" href="#">{{ blog.title }}</a></h2>
+          <p class="article-content">{{ blog.content }}</p>
+        </div>
+    
+
+{% endblock content %}

@@ -6,6 +6,15 @@ from flask_login import login_user
 from flask_login import current_user, login_user
 
 
+
+blogs = [
+    { 
+      'title'  :'Interface Design',
+ 'content'  :'Animation is like cursing. If you overuse it, it loses all its impact.',
+ 'time_posted' : 'October 17 2002'
+    },
+
+
 @app.route('/')
 @app.route('/index')
 def index():
